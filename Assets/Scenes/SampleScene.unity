@@ -339,7 +339,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!58 &2035922671
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -423,3 +423,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   newPlatform: {fileID: 1718786500848490, guid: 800cdc8ef103348a6adf3533d57f2017,
     type: 2}
+  platform: {fileID: 0}
