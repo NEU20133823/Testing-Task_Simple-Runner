@@ -8,8 +8,11 @@ public class Runner : MonoBehaviour {
     private float platformCenterY;
     public GameObject newPlatform, platform;
     // Use this for initialization
-    void Start () {
-		platformCenterY= GameObject.Find("FirstPlatform").transform.position.y;
+    void Start() {
+        GameObject firstPlatform = GameObject.Find("FirstPlatform");
+        platformCenterY = firstPlatform.transform.position.y;
+        firstPlatform.GetComponent<MeshRenderer>().material.color = Color.blue;
+        gameObject.GetComponent<MeshRenderer>().material.color = Color.blue;
     }
 	
 	// Update is called once per frame
@@ -32,6 +35,15 @@ public class Runner : MonoBehaviour {
         {
             platform = (GameObject)Instantiate(newPlatform, new Vector3(newPlatformCenterX, platformCenterY, 0F), Quaternion.identity);
             newPlatformCenterX = newPlatformCenterX + 5;
+            float randomNumber = Random.value;
+            if (randomNumber < 0.5)
+            {
+                platform.GetComponent<MeshRenderer>().material.color = Color.blue;
+            }
+            else
+            {
+                platform.GetComponent<MeshRenderer>().material.color = Color.red;
+            }
         }
     }
 }
