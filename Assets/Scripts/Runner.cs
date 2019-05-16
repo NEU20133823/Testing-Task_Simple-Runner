@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Runner : MonoBehaviour {
     private float jumpHeight = 1250f;
@@ -15,7 +16,7 @@ public class Runner : MonoBehaviour {
         platformCenterY = firstPlatform.transform.position.y;
         firstPlatform.GetComponent<MeshRenderer>().material.color = Color.blue;
         gameObject.GetComponent<MeshRenderer>().material.color = Color.blue;
-        isGround = true;
+        isGround = false;
         preTime = 0f;
     }
 	
@@ -36,6 +37,10 @@ public class Runner : MonoBehaviour {
                 Jump();
                 preTime = nowTime;
             }
+        }
+        if (gameObject.transform.position.y < -7)
+        {
+            Die();
         }
     }
     void Jump()
@@ -59,7 +64,7 @@ public class Runner : MonoBehaviour {
     }
     void CreateNewPlatform()
     {
-        if(newPlatformCenterX-gameObject.transform.position.x < 15)
+        if(newPlatformCenterX - gameObject.transform.position.x < 15)
         {
             platform = (GameObject)Instantiate(newPlatform, new Vector3(newPlatformCenterX, platformCenterY, 0F), Quaternion.identity);
             newPlatformCenterX = newPlatformCenterX + 5;
@@ -74,11 +79,24 @@ public class Runner : MonoBehaviour {
             }
         }
     }
+    void Die()
+    {
+        StartCoroutine(GameOver());
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (gameObject.transform.position.y > platformCenterY)
         {
             isGround = true;
         }
+        if (gameObject.GetComponent<MeshRenderer>().material.color != collision.gameObject.GetComponent<MeshRenderer>().material.color)
+        {
+            Die();
+        }
+    }
+    public IEnumerator GameOver()
+    {
+        SceneManager.LoadScene("SampleScene");
+        yield return new WaitForSeconds(2);
     }
 }
