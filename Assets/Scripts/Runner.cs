@@ -6,6 +6,8 @@ public class Runner : MonoBehaviour {
     private float jumpHeight = 1250f;
     private float newPlatformCenterX = 11.5f;
     private float platformCenterY;
+    private bool isGround;
+    private float preTime;
     public GameObject newPlatform, platform;
     // Use this for initialization
     void Start() {
@@ -13,6 +15,8 @@ public class Runner : MonoBehaviour {
         platformCenterY = firstPlatform.transform.position.y;
         firstPlatform.GetComponent<MeshRenderer>().material.color = Color.blue;
         gameObject.GetComponent<MeshRenderer>().material.color = Color.blue;
+        isGround = true;
+        preTime = 0f;
     }
 	
 	// Update is called once per frame
@@ -22,12 +26,36 @@ public class Runner : MonoBehaviour {
         CreateNewPlatform();
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Jump();
+            float nowTime=Time.realtimeSinceStartup;
+            if (nowTime - preTime < 0.2f)//double tap
+            {
+                ChangeColor();
+            }
+            else//single tap
+            {
+                Jump();
+                preTime = nowTime;
+            }
         }
     }
     void Jump()
     {
-        gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpHeight);
+        if (isGround)
+        {
+            isGround = false;
+            gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpHeight);
+        }
+    }
+    void ChangeColor()
+    {
+        if (gameObject.GetComponent<MeshRenderer>().material.color == Color.blue) 
+        {
+            gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
+        }
+        else
+        {
+            gameObject.GetComponent<MeshRenderer>().material.color = Color.blue;
+        }
     }
     void CreateNewPlatform()
     {
@@ -44,6 +72,13 @@ public class Runner : MonoBehaviour {
             {
                 platform.GetComponent<MeshRenderer>().material.color = Color.red;
             }
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (gameObject.transform.position.y > platformCenterY)
+        {
+            isGround = true;
         }
     }
 }
