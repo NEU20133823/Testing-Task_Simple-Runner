@@ -32,7 +32,7 @@ public class Runner : MonoBehaviour {
         Vector3 move = new Vector3(5, 0, 0);
         gameObject.transform.Translate(move * Time.deltaTime);
         CreateNewPlatform();
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetMouseButtonDown(0))
         {
             float nowTime=Time.realtimeSinceStartup;
             if (nowTime - preTime < 0.2f)//double tap
