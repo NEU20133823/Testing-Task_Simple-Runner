@@ -104,7 +104,7 @@ public class Runner : MonoBehaviour {
         else if(gameObject.transform.position.x > nextDetectionPointX)
         {
             score++;
-            display.text = "No of platform: " + score.ToString();
+            display.text = "Score: " + score.ToString();
             nextDetectionPointX = nextDetectionPointX + 5;
         }
     }
