@@ -88,9 +88,10 @@ public class Runner : MonoBehaviour {
     }
     void Die()
     {
+        PlayerPrefs.SetInt("score", score);
         StartCoroutine(GameOver());
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    void OnCollisionEnter2D(Collision2D collision)
     {
         if (gameObject.transform.position.y > platformCenterY)
         {
@@ -107,9 +108,9 @@ public class Runner : MonoBehaviour {
             nextDetectionPointX = nextDetectionPointX + 5;
         }
     }
-    public IEnumerator GameOver()
+    IEnumerator GameOver()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("GameOverScene");
         yield return new WaitForSeconds(2);
     }
 }
